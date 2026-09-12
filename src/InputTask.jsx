@@ -5,7 +5,7 @@ import TasksContiner from "./TasksContainer";
 import InfoCardContainer from "./InfoCardContainer"
 export default function InputTask({getTask}){
 
-    let [addTask,setAddTask] = useState([]);
+    let [addTask,setAddTask] = useState(["Sample task"]);
     let [inputTask,setInputTask] = useState("");
     let [count, setCount] = useState(0)
     
@@ -22,7 +22,7 @@ export default function InputTask({getTask}){
         setInputTask("")
         setCount(count+1)
     }
-
+    
 
     return(
         <>
