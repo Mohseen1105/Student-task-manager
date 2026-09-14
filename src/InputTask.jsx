@@ -3,11 +3,20 @@ import TextField from '@mui/material/TextField';
 import { useState } from "react";
 import TasksContiner from "./TasksContainer";
 import InfoCardContainer from "./InfoCardContainer"
+import { v4 as uuidv4 } from 'uuid';
+import { duration } from '@mui/material/styles';
 export default function InputTask({getTask}){
 
-    let [addTask,setAddTask] = useState(["Sample task"]);
+    let [addTask,setAddTask] = useState([{
+        task: "Sample task",
+        id: uuidv4(),
+        isDone: false
+    }]);
     let [inputTask,setInputTask] = useState("");
-    let [count, setCount] = useState(0)
+    let [count, setCount] = useState({
+        total: 0,
+        completed: 0
+    });
     
     function getInput(event){
         setInputTask(event.target.value)
@@ -17,12 +26,39 @@ export default function InputTask({getTask}){
     function setInput(){
         setAddTask([
             ...addTask,
-            inputTask
+            {
+                task: inputTask,
+                id: uuidv4(),
+                isDone: false
+            }
         ])
         setInputTask("")
-        setCount(count+1)
+        setCount({
+            ...count,
+            total: count.total+1
+        })
     }
     
+    function deleteTask(id){
+        setAddTask(addTask.filter((ele)=> ele.id != id))
+    }
+
+   function markAsDone(id){
+    setAddTask(
+        addTask.map((ele)=>{
+            return ele.id ===id? {...ele, isDone: !ele.isDone} : ele
+        })
+    )
+
+   
+        setCount({
+            ...count,
+            completed: count.completed+1
+        })
+
+    
+    
+   }
 
     return(
         <>
@@ -31,9 +67,9 @@ export default function InputTask({getTask}){
             <Button variant="text" onClick={setInput}>ADD</Button>
         </div>
 
-        <TasksContiner task={addTask}/>
+        <TasksContiner task={addTask} deleteTask={deleteTask} markAsDone={markAsDone}/>
 
-        <InfoCardContainer count={count}/>
+        <InfoCardContainer total={count.total} completed={count.completed}/>
         </>
         
        
