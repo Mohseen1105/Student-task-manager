@@ -7,11 +7,13 @@ import { v4 as uuidv4 } from 'uuid';
 import { duration } from '@mui/material/styles';
 export default function InputTask({getTask}){
 
-    let [addTask,setAddTask] = useState([{
+    let sampleTask = {
         task: "Sample task",
         id: uuidv4(),
         isDone: false
-    }]);
+    }
+
+    let [addTask,setAddTask] = useState([]);
     let [inputTask,setInputTask] = useState("");
     let [count, setCount] = useState({
         total: 0,
@@ -40,23 +42,35 @@ export default function InputTask({getTask}){
     }
     
     function deleteTask(id){
+        const task = addTask.find((ele) => ele.id === id);
         setAddTask(addTask.filter((ele)=> ele.id != id))
+        setCount({
+            ...count,
+            total: count.total-1,
+           completed: task.isDone
+            ? count.completed - 1
+            : null
+        })
+        
+
     }
 
    function markAsDone(id){
+
+    const task = addTask.find((ele) => ele.id === id);
+
     setAddTask(
         addTask.map((ele)=>{
             return ele.id ===id? {...ele, isDone: !ele.isDone} : ele
         })
     )
 
-   
-        setCount({
-            ...count,
-            completed: count.completed+1
-        })
-
-    
+      setCount({
+        ...count,
+        completed: task.isDone
+            ? count.completed - 1
+            : count.completed + 1
+    })
     
    }
 
