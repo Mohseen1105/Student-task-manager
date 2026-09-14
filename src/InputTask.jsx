@@ -4,7 +4,6 @@ import { useState } from "react";
 import TasksContiner from "./TasksContainer";
 import InfoCardContainer from "./InfoCardContainer"
 import { v4 as uuidv4 } from 'uuid';
-import { duration } from '@mui/material/styles';
 export default function InputTask({getTask}){
 
     let sampleTask = {
@@ -43,13 +42,13 @@ export default function InputTask({getTask}){
     
     function deleteTask(id){
         const task = addTask.find((ele) => ele.id === id);
-        setAddTask(addTask.filter((ele)=> ele.id != id))
+        setAddTask(addTask.filter((ele)=> ele.id !== id))
         setCount({
             ...count,
             total: count.total-1,
            completed: task.isDone
             ? count.completed - 1
-            : null
+            : count.completed
         })
         
 

@@ -7,9 +7,9 @@ export default function TasksContiner({task, deleteTask, markAsDone}){
         <div className="w-2xl h-64  p-3">
                 <div >
                     {
-                        task.map((ele, index) => {
+                        task.map((ele) => {
                             return (
-                                <div key={index} className="flex gap-2 items-center bg-gray-200 h-10 pl-3 p-1 rounded-sm m-3">
+                                <div key={ele.id} className="flex gap-2 items-center bg-gray-200 h-10 pl-3 p-1 rounded-sm m-3">
                                     <span style={ele.isDone? {textDecorationLine: "line-through"}: {}}>{ele.task}</span>
 
                                     <Checkbox onClick={()=>{
